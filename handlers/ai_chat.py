@@ -6,6 +6,7 @@ from aiogram.fsm.context import FSMContext
 from keyboards.navigation import back_to_menu
 from keyboards.main_menu import main_menu
 from services.yandex_ai import ask_ai
+from memory.chat_memory import add_message, get_history
 
 router = Router()
 
@@ -28,7 +29,7 @@ async def ai_start(message: Message, state: FSMContext):
         "• маркетплейсы\n\n"
         "💬 Просто напишите свой вопрос.",
         parse_mode="HTML",
-        reply_markup=back_to_menu
+        reply_markup=back_to_menu,
     )
 
 
@@ -39,55 +40,48 @@ async def ai_question(message: Message, state: FSMContext):
 
         await message.answer(
             "🏠 Вы вернулись в главное меню.",
-            reply_markup=main_menu
+            reply_markup=main_menu,
         )
         return
 
-    # Показываем статус "печатает..."
     await message.bot.send_chat_action(
         chat_id=message.chat.id,
-        action="typing"
+        action="typing",
     )
 
     try:
-        history = await state.get_data()
-        messages = history.get("history", [])
+        user_id = message.from_user.id
 
         # Добавляем сообщение пользователя
-        messages.append(
-            {
-                "role": "user",
-                "content": message.text
-            }
+        add_message(
+            user_id=user_id,
+            role="user",
+            content=message.text,
         )
 
-        # Храним только последние 20 сообщений
-        messages = messages[-20:]
+        # Получаем историю диалога
+        messages = get_history(user_id)
 
+        # Отправляем историю в AI
         answer = await ask_ai(messages)
 
-        # Добавляем ответ ИИ в историю
-        messages.append(
-            {
-                "role": "assistant",
-                "content": answer
-            }
+        # Сохраняем ответ AI
+        add_message(
+            user_id=user_id,
+            role="assistant",
+            content=answer,
         )
 
-        await state.update_data(history=messages)
-
         await message.answer(
-            f"🤖 <b>NEXORA AI</b>\n\n"
-            f"{answer}",
+            f"🤖 <b>NEXORA AI</b>\n\n{answer}",
             parse_mode="HTML",
-            reply_markup=back_to_menu
+            reply_markup=back_to_menu,
         )
 
     except Exception as e:
-        print(e)
+        print(f"AI ERROR: {e}")
 
         await message.answer(
-            "⚠️ Не удалось получить ответ.\n\n"
-            "Попробуйте ещё раз через минуту.",
-            reply_markup=back_to_menu
+            "⚠️ Не удалось получить ответ.\n\nПопробуйте ещё раз через минуту.",
+            reply_markup=back_to_menu,
         )

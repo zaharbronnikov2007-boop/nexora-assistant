@@ -4,6 +4,7 @@ from services.telegram_notify import send_consultation
 from aiogram import Router
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
+from keyboards.main_menu import calculator_result_keyboard
 
 from states.consultation import ConsultationState
 from keyboards.consultation import (
@@ -89,12 +90,12 @@ async def phone(message: Message, state: FSMContext):
 
     await send_consultation(message.bot, data)
 
+    await state.clear()
+
     await message.answer(
         "🎉 <b>Спасибо!</b>\n\n"
         "Ваша заявка успешно отправлена.\n\n"
         "Специалист NEXORA свяжется с вами в ближайшее рабочее время.",
         parse_mode="HTML",
-        reply_markup=ReplyKeyboardRemove()
+        reply_markup=calculator_result_keyboard,
     )
-
-    await state.clear()

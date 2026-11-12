@@ -1,5 +1,8 @@
+from services.telegram_notify import send_consultation
+from services.logger import log_lead
 from aiogram import Router, F
 from aiogram.types import Message
+from keyboards.main_menu import calculator_result_keyboard
 
 from aiogram.fsm.context import FSMContext
 
@@ -113,12 +116,16 @@ async def get_phone(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    await message.answer(
-        "✅ Спасибо!\n\n"
-        "Ваша заявка отправлена специалисту NEXORA.\n\n"
-        "Мы свяжемся с вами в ближайшее время."
+    log_lead(data)
+
+    await send_consultation(
+        message.bot,
+        data,
     )
 
-    print(data)
-
-    await state.clear()
+    await message.answer(
+    "✅ Спасибо!\n\n"
+    "Ваша заявка отправлена специалисту NEXORA.\n\n"
+    "Мы свяжемся с вами в ближайшее время.",
+    reply_markup=calculator_result_keyboard,
+)

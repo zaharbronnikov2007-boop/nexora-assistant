@@ -1,13 +1,19 @@
 from aiogram import Router, F
-from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import (
+    Message,
+    ReplyKeyboardMarkup,
+    KeyboardButton,
+    ReplyKeyboardRemove,
+)
 from aiogram.fsm.context import FSMContext
 
-from states.calculator import CalculatorState
+from services.logger import log_calculator
 from services.calculator import calculate_price
+from states.calculator import CalculatorState
+from keyboards.after_calculator import after_calculator_keyboard
 
 router = Router()
 
-# ---------- КЛАВИАТУРЫ ----------
 
 business_keyboard = ReplyKeyboardMarkup(
     keyboard=[
@@ -27,7 +33,7 @@ tax_keyboard = ReplyKeyboardMarkup(
         ],
         [
             KeyboardButton(text="ОСНО"),
-        ]
+        ],
     ],
     resize_keyboard=True,
 )
@@ -65,17 +71,17 @@ yes_no_keyboard = ReplyKeyboardMarkup(
     resize_keyboard=True,
 )
 
-# ---------- СТАРТ ----------
 
 @router.message(F.text == "💰 Рассчитать стоимость")
 async def calculator_start(message: Message, state: FSMContext):
-    await state.clear()
+    log_calculator(message.from_user)
 
+    await state.clear()
     await state.set_state(CalculatorState.business_type)
 
     await message.answer(
         "🧮 <b>Калькулятор NEXORA</b>\n\n"
-        "Ответьте на несколько вопросов и получите примерную стоимость обслуживания.",
+        "Ответьте на несколько вопросов.",
         parse_mode="HTML",
     )
 
@@ -87,7 +93,9 @@ async def calculator_start(message: Message, state: FSMContext):
 
 @router.message(CalculatorState.business_type)
 async def business_type(message: Message, state: FSMContext):
-    await state.update_data(business_type=message.text)
+    await state.update_data(
+        business_type=message.text
+    )
 
     await state.set_state(CalculatorState.tax_system)
 
@@ -99,7 +107,9 @@ async def business_type(message: Message, state: FSMContext):
 
 @router.message(CalculatorState.tax_system)
 async def tax_system(message: Message, state: FSMContext):
-    await state.update_data(tax_system=message.text)
+    await state.update_data(
+        tax_system=message.text
+    )
 
     await state.set_state(CalculatorState.activity)
 
@@ -111,64 +121,87 @@ async def tax_system(message: Message, state: FSMContext):
 
 @router.message(CalculatorState.activity)
 async def activity(message: Message, state: FSMContext):
-    await state.update_data(activity=message.text.replace("💻 ", "").replace("🛒 ", "").replace("🏗 ", ""))
+    text = (
+        message.text
+        .replace("💻 ", "")
+        .replace("🛒 ", "")
+        .replace("🏗 ", "")
+    )
+
+    await state.update_data(
+        activity=text
+    )
 
     await state.set_state(CalculatorState.employees)
 
     await message.answer(
-        "👥 Сколько сотрудников работает?",
+        "👥 Сколько сотрудников?",
         reply_markup=employees_keyboard,
     )
 
 
 @router.message(CalculatorState.employees)
 async def employees(message: Message, state: FSMContext):
-    await state.update_data(employees=message.text)
+    await state.update_data(
+        employees=message.text
+    )
 
-    await state.set_state(CalculatorState.operations)
+    await state.set_state(
+        CalculatorState.operations
+    )
 
     await message.answer(
-        "📄 Сколько документов (операций) в месяц?\n\nНапишите только число."
+        "📄 Сколько документов в месяц?\n\nВведите только число."
     )
+
+
 @router.message(CalculatorState.operations)
 async def operations(message: Message, state: FSMContext):
+
     if not message.text.isdigit():
-        await message.answer("❌ Введите только число.")
+        await message.answer(
+            "❌ Введите только число."
+        )
         return
 
-    await state.update_data(operations=int(message.text))
+    await state.update_data(
+        operations=int(message.text)
+    )
 
-    await state.set_state(CalculatorState.patent)
+    await state.set_state(
+        CalculatorState.patent
+    )
 
     await message.answer(
-        "📑 Используется патент?",
-        reply_markup=yes_no_keyboard,
+        "📑 Используется патент?", reply_markup=yes_no_keyboard,
     )
 
 
 @router.message(CalculatorState.patent)
 async def patent(message: Message, state: FSMContext):
+
     await state.update_data(
         patent=message.text == "Да"
     )
 
-    await state.set_state(CalculatorState.vat)
+    await state.set_state(
+        CalculatorState.vat
+    )
 
     await message.answer(
         "🧾 Работаете с НДС на УСН?",
         reply_markup=yes_no_keyboard,
     )
 
-
 @router.message(CalculatorState.vat)
 async def vat(message: Message, state: FSMContext):
+
     await state.update_data(
         vat=message.text == "Да"
     )
 
     data = await state.get_data()
 
-    # Тип компании
     if data["business_type"] == "🧑 ИП":
         if data["employees"] == "Нет":
             company_type = "ИП без сотрудников"
@@ -177,7 +210,6 @@ async def vat(message: Message, state: FSMContext):
     else:
         company_type = "ООО"
 
-    # Сотрудники
     employees_map = {
         "Нет": 0,
         "1–5": 3,
@@ -196,17 +228,22 @@ async def vat(message: Message, state: FSMContext):
     )
 
     await message.answer(
+        "⏳ Рассчитываю стоимость...",
+        reply_markup=ReplyKeyboardRemove(),
+    )
+
+    await message.answer(
         f"""💰 <b>Предварительная стоимость</b>
 
 ≈ <b>{price:,} ₽ / месяц</b>
 
-Это ориентировочная стоимость.
+Это ориентировочный расчёт.
 
-Для получения точного коммерческого предложения нажмите:
+━━━━━━━━━━━━━━
 
-💬 <b>Обсудить мой бизнес</b>
-""".replace(",", " "),
+Что хотите сделать дальше?""".replace(",", " "),
         parse_mode="HTML",
+        reply_markup=after_calculator_keyboard,
     )
 
     await state.clear()

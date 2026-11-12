@@ -1,0 +1,191 @@
+[
+    {
+        "name": "захар",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "📚 Бухгалтерское сопровождение",
+        "description": "м",
+        "phone": "+79196861233"
+    },
+    {
+        "name": "Захар",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "📌 Другое",
+        "description": "Хуй",
+        "phone": "79195161880"
+    },
+    {
+        "name": "Захар",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "📌 Другое",
+        "description": "Перейти к вам от другого бухгалтера",
+        "phone": "79195161880"
+    },
+    {
+        "name": "💰 Рассчитать стоимость",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "1–5",
+        "service": "📚 Бухгалтерское сопровождение",
+        "description": "О",
+        "phone": "79196861233"
+    },
+    {
+        "name": "О",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "📌 Другое",
+        "description": "О",
+        "phone": "79196861233"
+    },
+    {
+        "name": "Ищи",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "🏢 Регистрация бизнеса",
+        "description": "По",
+        "phone": "79196861233"
+    },
+    {
+        "name": "По",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "ОСНО",
+        "service": "📚 Бухгалтерское сопровождение",
+        "description": "⚙️ Автоматизация бизнеса",
+        "phone": "79195161880"
+    },
+    {
+        "name": "По",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "ОСНО",
+        "service": "📚 Бухгалтерское сопровождение",
+        "description": "⚙️ Автоматизация бизнеса",
+        "phone": "🤖 Задать вопрос"
+    },
+    {
+        "name": "По",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "ОСНО",
+        "service": "📚 Бухгалтерское сопровождение",
+        "description": "⚙️ Автоматизация бизнеса",
+        "phone": "🏠 Главное меню"
+    },
+    {
+        "name": "По",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "ОСНО",
+        "service": "📚 Бухгалтерское сопровождение",
+        "description": "⚙️ Автоматизация бизнеса",
+        "phone": "🏠 Главное меню"
+    },
+    {
+        "name": "hgh",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "💰 Налоговая консультация",
+        "description": "⚙️ Автоматизация бизнеса",
+        "phone": "+79196861233"
+    },
+    {
+        "name": "hgh",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "💰 Налоговая консультация",
+        "description": "⚙️ Автоматизация бизнеса",
+        "phone": "🏠 Главное меню"
+    },
+    {
+        "name": "hgh",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "💰 Налоговая консультация",
+        "description": "⚙️ Автоматизация бизнеса",
+        "phone": "🏠 Главное меню"
+    },
+    {
+        "name": "🤖 Задать вопрос",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "💰 Налоговая консультация",
+        "description": "💰 Налоговая консультация",
+        "phone": "+79196861233"
+    },
+    {
+        "name": "🤖 Задать вопрос",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "💰 Налоговая консультация",
+        "description": "💰 Налоговая консультация",
+        "phone": "🏠 Главное меню"
+    },
+    {
+        "name": "🤖 Задать вопрос",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "💰 Налоговая консультация",
+        "description": "💰 Налоговая консультация",
+        "phone": "🤖 Задать вопрос"
+    },
+    {
+        "name": "🤖 Задать вопрос",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "💰 Налоговая консультация",
+        "description": "💰 Налоговая консультация",
+        "phone": "/consultation"
+    },
+    {
+        "name": "🤖 Задать вопрос",
+        "business_type": "🧑 ИП",
+        "tax_system": "УСН",
+        "employees": "Нет",
+        "service": "💰 Налоговая консультация",
+        "description": "💰 Налоговая консультация",
+        "phone": "🤖 Задать вопрос"
+    },
+    {
+        "name": "Ада",
+        "business_type": "🧑 ИП",
+        "tax_system": "ОСНО",
+        "employees": "Нет",
+        "service": "🏢 Регистрация бизнеса",
+        "description": "Нет",
+        "phone": "79195161880"
+    },
+    {
+        "name": "Ада",
+        "business_type": "🧑 ИП",
+        "tax_system": "ОСНО",
+        "employees": "Нет",
+        "service": "🏢 Регистрация бизнеса",
+        "description": "Нет",
+        "phone": "🤖 Задать вопрос"
+    },
+    {
+        "name": "Ада",
+        "business_type": "🧑 ИП",
+        "tax_system": "ОСНО",
+        "employees": "Нет",
+        "service": "🏢 Регистрация бизнеса",
+        "description": "Нет",
+        "phone": "🤖 Задать вопрос"
+    }
+]
